@@ -1852,6 +1852,13 @@ public class ZanMinimap implements Runnable { // implements Runnable
 		settingsFile = new File(getAppDir("minecraft/mods/zan"), worldNameSave + ".points");
 
 		try {
+			if (settingsFile.exists()) {
+				File settingsBackup = new File(getAppDir("minecraft/mods/zan"), worldNameSave + ".points.bak");
+				if (settingsBackup.exists()) { settingsBackup.delete(); }
+				settingsFile.renameTo(settingsBackup);
+				settingsFile = new File(getAppDir("minecraft/mods/zan"), worldNameSave + ".points");
+				settingsFile.createNewFile();
+			}
 			PrintWriter out = new PrintWriter(new FileWriter(settingsFile));
 
 			for(Waypoint pt:wayPts) {
